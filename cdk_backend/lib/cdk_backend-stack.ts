@@ -18,10 +18,11 @@ export class CdkBackendStack extends cdk.Stack {
     
     const bucketName = this.node.tryGetContext('bucketName');
     const githubToken = this.node.tryGetContext('githubToken');
+    const githubRepoOwner = this.node.tryGetContext('githubRepoOwner');
 
-    if (!githubToken || !bucketName) {
+    if (!githubToken || !bucketName || !githubRepo) {
       throw new Error(
-        'Both GitHub token and bucket name are required! Pass them using `-c githubToken=<token> -c bucketName=<name>`'
+        'Both GitHub token, repo owner, and bucket name are required! Pass them using `-c githubToken=<token> -c bucketName=<name>-c githubRepoOwner=<name>`'
       );
     }
 
@@ -37,7 +38,8 @@ export class CdkBackendStack extends cdk.Stack {
     // --------- Create Amplify App (WITHOUT referencing the domain yet) ----------
     const amplifyApp = new amplify.App(this, 'pdfui', {
       sourceCodeProvider: new amplify.GitHubSourceCodeProvider({
-        owner: 'ASUCICREPO',
+        
+        owner: githubRepoOwner,
         repository: 'PDF_accessability_UI',
         oauthToken: githubToken_secret_manager.secretValue
       }),
