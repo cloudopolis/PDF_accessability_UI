@@ -20,7 +20,7 @@ export class CdkBackendStack extends cdk.Stack {
     const githubToken = this.node.tryGetContext('githubToken');
     const githubRepoOwner = this.node.tryGetContext('githubRepoOwner');
 
-    if (!githubToken || !bucketName || !githubRepo) {
+    if (!githubToken || !bucketName || !githubRepoOwner) {
       throw new Error(
         'Both GitHub token, repo owner, and bucket name are required! Pass them using `-c githubToken=<token> -c bucketName=<name>-c githubRepoOwner=<name>`'
       );
